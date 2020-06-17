@@ -1,6 +1,6 @@
 <?php
 $api_key = 'AIzaSyDVGM-H4bVy9eRPnTSz0wPB_82eXhbbqW0';
-$text = 'How are you';
+$text = 'I love heesu';
 $source="en";
 $target="ko";
  
