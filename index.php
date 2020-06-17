@@ -1,27 +1,32 @@
 <?php
-$api_key = 'AIzaSyDVGM-H4bVy9eRPnTSz0wPB_82eXhbbqW0';
-$text = 'I love heesu';
-$source="en";
-$target="ko";
- 
-$url = 'https://www.googleapis.com/language/translate/v2?key=' . $api_key . '&q=' . rawurlencode($text);
-$url .= '&target='.$target;
-$url .= '&source='.$source;
- 
-$response = file_get_contents($url);
-$obj =json_decode($response,true); //true converts stdClass to associative array.
-if($obj != null)
+namespace Google\Cloud\Samples\Vision;
+
+use Google\Cloud\Vision\V1\ImageAnnotatorClient;
+
+$path = './test.jpg';
+
+function detect_text($path)
 {
-    if(isset($obj['error']))
-    {
-        echo "Error is : ".$obj['error']['message'];
+    $imageAnnotator = new ImageAnnotatorClient();
+
+    # annotate the image
+    $image = file_get_contents($path);
+    $response = $imageAnnotator->textDetection($image);
+    $texts = $response->getTextAnnotations();
+
+    printf('%d texts found:' . PHP_EOL, count($texts));
+    foreach ($texts as $text) {
+        print($text->getDescription() . PHP_EOL);
+
+        # get bounds
+        $vertices = $text->getBoundingPoly()->getVertices();
+        $bounds = [];
+        foreach ($vertices as $vertex) {
+            $bounds[] = sprintf('(%d,%d)', $vertex->getX(), $vertex->getY());
+        }
+        print('Bounds: ' . join(', ', $bounds) . PHP_EOL);
     }
-    else
-    {
-        echo "Translsated Text: ".$obj['data']['translations'][0]['translatedText']."n";
-    }
+
+    $imageAnnotator->close();
 }
-else
-    echo "UNKNOW ERROR";
- 
 ?>
