@@ -1,21 +1,27 @@
-<php>
-</php>
-
-<html>
-<head>
-	<meta charset="utf-8"/>
-</head>
-<body>
-	<div id="map" style="width:500px;height:400px;"></div>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8c03ca589ff35989a8974da028de5137"></script>
-	<script>
-		var container = document.getElementById('map');
-		var options = {
-			center: new kakao.maps.LatLng(33.450701, 126.570667),
-			level: 3
-		};
-
-		var map = new kakao.maps.Map(container, options);
-	</script>
-</body>
-</html>
+<?php
+$api_key = 'AIzaSyDVGM-H4bVy9eRPnTSz0wPB_82eXhbbqW0';
+$text = 'How are you';
+$source="en";
+$target="ko";
+ 
+$url = 'https://www.googleapis.com/language/translate/v2?key=' . $api_key . '&q=' . rawurlencode($text);
+$url .= '&target='.$target;
+$url .= '&source='.$source;
+ 
+$response = file_get_contents($url);
+$obj =json_decode($response,true); //true converts stdClass to associative array.
+if($obj != null)
+{
+    if(isset($obj['error']))
+    {
+        echo "Error is : ".$obj['error']['message'];
+    }
+    else
+    {
+        echo "Translsated Text: ".$obj['data']['translations'][0]['translatedText']."n";
+    }
+}
+else
+    echo "UNKNOW ERROR";
+ 
+?>
