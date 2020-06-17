@@ -1,5 +1,5 @@
 <?php
-$url = 'https://api.idolondemand.com/1/api/sync/ocrdocument/v1';
+$url = 'https://storage.cloud.google.com/image-trans-12/test.jpg';
  
 $output_dir = "uploads/";
 if(isset($_FILES["file"]))
@@ -13,7 +13,7 @@ if(isset($_FILES["file"]))
      
     //multipart form post using CURL
     $filePath = realpath($output_dir.$fileName);
-    $post = array('apikey' => '4bc13566062bf3ea7c44daeea7b5c92ddde06f2d',
+    $post = array('apikey' => 'AIzaSyDVGM-H4bVy9eRPnTSz0wPB_82eXhbbqW0',
                     'mode' => 'document_photo',
                     'file' =>'@'.$filePath);
          
